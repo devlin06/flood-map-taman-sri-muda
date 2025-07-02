@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Taman Sri Muda Flood Risk Map</title>
+  <title>Shah Alam Flood Risk Map</title>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
+
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
   <style>
     #map { height: 100vh; }
@@ -12,29 +12,60 @@
 </head>
 <body>
   <div id="map"></div>
-  
+
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
   <script>
-    const map = L.map('map').setView([3.023, 101.495], 15);
-    
+    const map = L.map('map').setView([3.0738, 101.5183], 13); // Center on Shah Alam
+
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 19,
-      attribution: '© OpenStreetMap contributors'
+      attribution: 'Â© OpenStreetMap contributors'
     }).addTo(map);
-    
-    const floodZone = L.polygon([
-      [3.0215, 101.4925],
-      [3.0225, 101.4980],
-      [3.0250, 101.4970],
-      [3.0260, 101.4930],
-      [3.0235, 101.4905]
-    ], {
-      color: 'red',
-      fillColor: '#f03',
-      fillOpacity: 0.4
-    }).addTo(map);
-    
-    floodZone.bindPopup("Flood-Prone Area: Taman Sri Muda");
+
+    // Flood zones polygons (approximate coordinates, replace with precise if available)
+    const floodZones = [
+      {
+        name: "Taman Sri Muda",
+        coords: [
+          [3.0215, 101.4925],
+          [3.0225, 101.4980],
+          [3.0250, 101.4970],
+          [3.0260, 101.4930],
+          [3.0235, 101.4905]
+        ],
+        color: 'red'
+      },
+      {
+        name: "Section 24",
+        coords: [
+          [3.0800, 101.5170],
+          [3.0815, 101.5230],
+          [3.0840, 101.5220],
+          [3.0830, 101.5175]
+        ],
+        color: 'orange'
+      },
+      {
+        name: "Bukit Jelutong",
+        coords: [
+          [3.1020, 101.4830],
+          [3.1040, 101.4880],
+          [3.1060, 101.4865],
+          [3.1045, 101.4820]
+        ],
+        color: 'purple'
+      }
+      // Add more areas as needed
+    ];
+
+    floodZones.forEach(zone => {
+      const polygon = L.polygon(zone.coords, {
+        color: zone.color,
+        fillColor: zone.color,
+        fillOpacity: 0.4
+      }).addTo(map);
+      polygon.bindPopup(`<b>${zone.name}</b><br>Flood-prone area`);
+    });
   </script>
 </body>
 </html>
